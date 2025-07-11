@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String                    @id @default(uuid())
+  name              String
+  email             String                    @unique
+  password          String
+  transactions      Transaction[]
+  wallets           Wallet[]
+  categories        Category[]
+  createdAt         DateTime                  @default(now())
+  modifiedAt        DateTime                  @updatedAt
+}
+
+model Wallet {
+  id                String                    @id @default(uuid())
+  name              String
+  balance           Float                     @default(0)
+  user              User                      @relation(fields: [userId], references: [id])
+  userId            String
+  transactions      Transaction[]
+  createdAt         DateTime                  @default(now())
+  modifiedAt        DateTime                  @updatedAt
+}
+
+model Category {
+  id                String                    @id @default(uuid())
+  name              String
+  type              TransactionType
+  user              User?                     @relation(fields: [userId], references: [id])
+  userId            String?
+  transactions      Transaction[]
+
+  createdAt         DateTime                  @default(now())
+  modifiedAt        DateTime                  @updatedAt
+}
+
+model Transaction {
+  id                Int                       @id @default(autoincrement())
+  title             String
+  amount            Float
+  type              TransactionType
+  date              DateTime                  @default(now())
+
+  user              User?                     @relation(fields: [userId], references: [id])
+  userId            String?
+
+  category          Category?                 @relation(fields: [categoryId], references: [id])
+  categoryId        String?
+
+  wallet            Wallet?                   @relation(fields: [walletId], references: [id])
+  walletId          String?
+
+  createdAt         DateTime                  @default(now())
+  modifiedAt        DateTime                  @updatedAt
+}
+
+enum TransactionType {
+  income
+  expense
+}
