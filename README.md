@@ -1,5 +1,7 @@
 # BE Finance Tracker HonoJS
 
+This is a backend service for a finance tracker application built using HonoJS + PostgreSQL.
+
 To install dependencies:
 
 ```sh
