@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import authRoutes from "./routes/auth.route";
 import userRoutes from "./routes/user.route";
+import categoryRoutes from "./routes/category.route";
 
 const app = new Hono();
 app.onError((err, c) => {
@@ -11,5 +12,6 @@ app.get("/", (c) => {
 });
 app.route("/auth", authRoutes);
 app.route("/user", userRoutes);
+app.route("/category", categoryRoutes);
 
 export default app;

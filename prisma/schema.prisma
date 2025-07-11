@@ -15,6 +15,7 @@ model User {
   transactions      Transaction[]
   wallets           Wallet[]
   categories        Category[]
+  settings          UserSetting?
   createdAt         DateTime                  @default(now())
   modifiedAt        DateTime                  @updatedAt
 }
@@ -65,4 +66,13 @@ model Transaction {
 enum TransactionType {
   income
   expense
+}
+
+model UserSetting {
+  id                String                    @id @default(uuid())
+  user              User?                     @relation(fields: [userId], references: [id])
+  userId            String                    @unique
+  currency          String                    @default("USD")
+  createdAt         DateTime                  @default(now())
+  modifiedAt        DateTime                  @updatedAt
 }

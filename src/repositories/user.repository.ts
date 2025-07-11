@@ -1,5 +1,3 @@
-import { User } from "@prisma/client";
-import { prisma } from "../config/db";
 import { UserModel } from "../models/user.model";
 
 export const UserRepository = {

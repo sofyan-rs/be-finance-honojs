@@ -8,6 +8,7 @@ import type {
 } from "../dto/user.dto";
 import { toUserDto } from "../mappers/user.mapper";
 import { HttpError } from "../errors/http-error";
+import { UserSettingModel } from "../models/user.model";
 
 const JWT_SECRET = process.env.JWT_SECRET || "default";
 
@@ -22,6 +23,12 @@ export class UserService {
         name,
         email,
         password: hashed,
+      });
+
+      await UserSettingModel.create({
+        data: {
+          userId: user.id,
+        },
       });
 
       const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
@@ -50,7 +57,7 @@ export class UserService {
     }
   }
 
-  static async getById(id: string): Promise<UserDto | null> {
+  static async getById(id: string) {
     try {
       const user = await UserRepository.findById(id);
       return user ? toUserDto(user) : null;
