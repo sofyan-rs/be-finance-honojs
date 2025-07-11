@@ -1,4 +1,4 @@
-import * as bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
 import { UserRepository } from "../repositories/user.repository";
 import type {
@@ -35,8 +35,11 @@ export class UserService {
         expiresIn: "7d",
       });
       return { token, user: toUserDto(user) };
-    } catch (error: any) {
-      throw new HttpError(error?.message || "Failed to register user", 500);
+    } catch (error: unknown) {
+      throw new HttpError(
+        error instanceof Error ? error.message : "Failed to register user",
+        500,
+      );
     }
   }
 
@@ -52,8 +55,11 @@ export class UserService {
         expiresIn: "7d",
       });
       return { token, user: toUserDto(user) };
-    } catch (error: any) {
-      throw new HttpError(error?.message || "Failed to login", 500);
+    } catch (error: unknown) {
+      throw new HttpError(
+        error instanceof Error ? error.message : "Failed to login",
+        500,
+      );
     }
   }
 
@@ -61,8 +67,11 @@ export class UserService {
     try {
       const user = await UserRepository.findById(id);
       return user ? toUserDto(user) : null;
-    } catch (error: any) {
-      throw new HttpError(error?.message || "Failed to get user", 500);
+    } catch (error: unknown) {
+      throw new HttpError(
+        error instanceof Error ? error.message : "Failed to get user",
+        500,
+      );
     }
   }
 
@@ -73,8 +82,11 @@ export class UserService {
 
       const updated = await UserRepository.update(id, data);
       return toUserDto(updated);
-    } catch (error: any) {
-      throw new HttpError(error?.message || "Failed to update user", 500);
+    } catch (error: unknown) {
+      throw new HttpError(
+        error instanceof Error ? error.message : "Failed to update user",
+        500,
+      );
     }
   }
 
@@ -90,8 +102,11 @@ export class UserService {
       await UserRepository.update(id, { password: hashed });
 
       return { message: "Password updated successfully" };
-    } catch (error: any) {
-      throw new HttpError(error?.message || "Failed to change password", 500);
+    } catch (error: unknown) {
+      throw new HttpError(
+        error instanceof Error ? error.message : "Failed to change password",
+        500,
+      );
     }
   }
 }

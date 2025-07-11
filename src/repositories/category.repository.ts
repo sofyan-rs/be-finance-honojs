@@ -1,5 +1,4 @@
 import { TransactionType } from "@prisma/client";
-import { prisma } from "../config/db";
 import { CategoryModel } from "../models/category.model";
 
 export const CategoryRepository = {
