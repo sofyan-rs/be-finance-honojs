@@ -8,10 +8,16 @@ To install dependencies:
 bun install
 ```
 
+To run migrations:
+
+```sh
+bunx prisma migrate dev
+```
+
 To run:
 
 ```sh
 bun run dev
 ```
 
-open http://localhost:3000
+Open http://localhost:3000
