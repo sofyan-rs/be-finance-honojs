@@ -9,6 +9,9 @@ import type {
 import { toUserDto } from "../mappers/user.mapper";
 import { HttpError } from "../errors/http-error";
 import { UserSettingModel } from "../models/user.model";
+import { DEFAULT_CATEGORIES } from "../constants/default-category";
+import { CategoryModel } from "../models/category.model";
+import { TransactionType } from "@prisma/client";
 
 const JWT_SECRET = process.env.JWT_SECRET || "default";
 
@@ -25,11 +28,25 @@ export class UserService {
         password: hashed,
       });
 
+      // Create user settings
       await UserSettingModel.create({
         data: {
           userId: user.id,
         },
       });
+
+      // Create default categories for the new user
+      await Promise.all(
+        DEFAULT_CATEGORIES.map((cat) =>
+          CategoryModel.create({
+            data: {
+              name: cat.name,
+              type: cat.type as TransactionType,
+              userId: user.id,
+            },
+          }),
+        ),
+      );
 
       const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
         expiresIn: "7d",
