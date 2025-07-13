@@ -2,7 +2,11 @@ import { TransactionType } from "@prisma/client";
 import { CategoryModel } from "../models/category.model";
 
 export const CategoryRepository = {
-  create: async (data: { name: string; type: TransactionType }) => {
+  create: async (data: {
+    name: string;
+    type: TransactionType;
+    userId?: string;
+  }) => {
     return await CategoryModel.create({ data });
   },
   findById: async (id: string) => {

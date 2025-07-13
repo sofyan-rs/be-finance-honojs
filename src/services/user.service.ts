@@ -12,6 +12,7 @@ import { UserSettingModel } from "../models/user.model";
 import { DEFAULT_CATEGORIES } from "../constants/default-category";
 import { CategoryModel } from "../models/category.model";
 import { TransactionType } from "@prisma/client";
+import { WalletModel } from "../models/wallet.model";
 
 const JWT_SECRET = process.env.JWT_SECRET || "default";
 
@@ -31,6 +32,14 @@ export class UserService {
       // Create user settings
       await UserSettingModel.create({
         data: {
+          userId: user.id,
+        },
+      });
+
+      // Create one wallet for the new user
+      await WalletModel.create({
+        data: {
+          name: "My Wallet",
           userId: user.id,
         },
       });
