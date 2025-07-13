@@ -2,22 +2,24 @@
 
 This is a backend service for a finance tracker application built using HonoJS + PostgreSQL.
 
-To install dependencies:
+## Development
+
+Install dependencies:
 
 ```sh
 bun install
 ```
 
-To run migrations:
+Run migrations:
 
 ```sh
 bunx prisma migrate dev
 ```
 
-To run:
+Run development:
 
 ```sh
 bun run dev
 ```
 
-Open http://localhost:3000
+Open http://localhost:4000
