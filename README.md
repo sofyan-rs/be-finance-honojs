@@ -22,4 +22,12 @@ Run development:
 bun run dev
 ```
 
+### Using Docker
+
+Compose the docker image:
+
+```sh
+docker compose -f docker-compose.dev.yml up --build
+```
+
 Open http://localhost:3000
