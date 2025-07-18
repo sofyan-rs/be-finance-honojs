@@ -22,4 +22,4 @@ Run development:
 bun run dev
 ```
 
-Open http://localhost:4000
+Open http://localhost:3000
