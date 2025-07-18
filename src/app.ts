@@ -26,6 +26,6 @@ app.route("/user", userRoutes);
 app.route("/category", categoryRoutes);
 
 export default {
-  port: 4000,
+  port: 3000,
   fetch: app.fetch,
 };
