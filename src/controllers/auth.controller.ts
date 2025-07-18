@@ -46,3 +46,13 @@ export const changePassword = async (c: Context) => {
     return c.json({ error: err.message }, err.status);
   }
 };
+
+export const getUserMe = async (c: Context) => {
+  try {
+    const user = c.get("user");
+    const result = await UserService.getById(user.id);
+    return c.json(result);
+  } catch (err: any) {
+    return c.json({ error: err.message }, err.status);
+  }
+};

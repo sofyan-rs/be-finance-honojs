@@ -4,10 +4,7 @@ import * as auth from "../controllers/auth.controller";
 
 const route = new Hono();
 
-route.get("/me", jwtAuth, (c) => {
-  const user = c.get("user");
-  return c.json({ user });
-});
+route.get("/me", jwtAuth, auth.getUserMe);
 route.put("/profile", jwtAuth, auth.updateProfile);
 route.put("/change-password", jwtAuth, auth.changePassword);
 

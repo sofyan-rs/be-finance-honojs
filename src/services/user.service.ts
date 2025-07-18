@@ -92,7 +92,9 @@ export class UserService {
   static async getById(id: string) {
     try {
       const user = await UserRepository.findById(id);
-      return user ? toUserDto(user) : null;
+      if (!user) throw new HttpError("User not found", 404);
+
+      return toUserDto(user);
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to get user",
