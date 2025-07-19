@@ -29,7 +29,6 @@ services:
     volumes:
       - ./:/app
       - /app/node_modules
-      - /app/bun.lockb
     ports:
       - "3000:3000"
     command: sh -c "bunx prisma generate && bunx prisma migrate dev && bun run --hot src/app.ts"
