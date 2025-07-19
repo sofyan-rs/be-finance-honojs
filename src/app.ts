@@ -25,7 +25,9 @@ app.route("/auth", authRoutes);
 app.route("/user", userRoutes);
 app.route("/category", categoryRoutes);
 
+const port = process.env.PORT || 3000;
+
 export default {
-  port: 3000,
+  port,
   fetch: app.fetch,
 };
