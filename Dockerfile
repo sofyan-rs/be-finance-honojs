@@ -1,15 +1,15 @@
-FROM oven/bun:1.1.13
+FROM oven/bun:latest
 
 WORKDIR /app
 
-COPY package.json bun.lock ./
+COPY package.json bun.lockb ./
 
 RUN bun install
 
 COPY . .
 
-ENV PORT=3000
+RUN bunx prisma generate
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "bunx prisma generate && bun run --hot src/app.ts"]
+CMD ["bun", "run", "src/server.ts"]
