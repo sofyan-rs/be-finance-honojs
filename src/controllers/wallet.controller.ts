@@ -8,8 +8,8 @@ export const createWallet = async (c: Context) => {
     const user = c.get("user");
     const body: CreateWalletDto = await c.req.json();
     const payload: CreateWalletDto = { ...body, userId: user.id };
-    const category = await WalletService.create(payload);
-    return c.json(category);
+    const wallet = await WalletService.create(payload);
+    return c.json(wallet);
   } catch (err: unknown) {
     return c.json(
       { error: err instanceof Error ? err.message : String(err) },
@@ -34,11 +34,11 @@ export const getWallets = async (c: Context) => {
 export const getWalletById = async (c: Context) => {
   try {
     const id = c.req.param("id");
-    const category = await WalletService.getById(id);
-    if (!category) {
+    const wallet = await WalletService.getById(id);
+    if (!wallet) {
       return c.json({ error: "Wallet not found" }, 404);
     }
-    return c.json(category);
+    return c.json(wallet);
   } catch (err: unknown) {
     return c.json(
       { error: err instanceof Error ? err.message : String(err) },
@@ -51,8 +51,8 @@ export const updateWallet = async (c: Context) => {
   try {
     const id = c.req.param("id");
     const body: UpdateWalletDto = await c.req.json();
-    const category = await WalletService.update(id, body);
-    return c.json(category);
+    const wallet = await WalletService.update(id, body);
+    return c.json(wallet);
   } catch (err: unknown) {
     return c.json(
       { error: err instanceof Error ? err.message : String(err) },
