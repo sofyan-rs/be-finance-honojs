@@ -1,7 +1,7 @@
 export const DEFAULT_CATEGORIES = [
-  { name: "Food", type: "expense" },
-  { name: "Transport", type: "expense" },
-  { name: "Salary", type: "income" },
-  { name: "Shopping", type: "expense" },
-  { name: "Other", type: "expense" },
+  { name: "Food", type: "expense", icon: "🍔" },
+  { name: "Transport", type: "expense", icon: "🚗" },
+  { name: "Salary", type: "income", icon: "💰" },
+  { name: "Shopping", type: "expense", icon: "🛍️" },
+  { name: "Other", type: "expense", icon: "❓" },
 ];

@@ -35,10 +35,11 @@ model Category {
   id           String          @id @default(uuid())
   name         String
   type         TransactionType
-  userId       String?
+  icon        String
+  userId       String
   createdAt    DateTime        @default(now())
   modifiedAt   DateTime        @updatedAt
-  user         User?           @relation(fields: [userId], references: [id])
+  user         User            @relation(fields: [userId], references: [id])
   transactions Transaction[]
 }
 
@@ -48,14 +49,14 @@ model Transaction {
   amount     Float
   type       TransactionType
   date       DateTime        @default(now())
-  userId     String?
-  categoryId String?
-  walletId   String?
+  userId     String
+  categoryId String
+  walletId   String
   createdAt  DateTime        @default(now())
   modifiedAt DateTime        @updatedAt
-  category   Category?       @relation(fields: [categoryId], references: [id])
-  user       User?           @relation(fields: [userId], references: [id])
-  wallet     Wallet?         @relation(fields: [walletId], references: [id])
+  category   Category        @relation(fields: [categoryId], references: [id])
+  user       User            @relation(fields: [userId], references: [id])
+  wallet     Wallet          @relation(fields: [walletId], references: [id])
 }
 
 model UserSetting {

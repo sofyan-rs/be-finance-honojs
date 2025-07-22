@@ -51,6 +51,7 @@ export class UserService {
             data: {
               name: cat.name,
               type: cat.type as TransactionType,
+              icon: cat.icon,
               userId: user.id,
             },
           }),

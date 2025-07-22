@@ -5,14 +5,18 @@ export const CategoryRepository = {
   create: async (data: {
     name: string;
     type: TransactionType;
-    userId?: string;
+    icon: string;
+    userId: string;
   }) => {
     return await CategoryModel.create({ data });
   },
   findById: async (id: string) => {
     return await CategoryModel.findUnique({ where: { id } });
   },
-  update: async (id: string, data: { name: string; type: TransactionType }) => {
+  update: async (
+    id: string,
+    data: { name: string; type: TransactionType; icon: string },
+  ) => {
     return await CategoryModel.update({ where: { id }, data });
   },
   delete: async (id: string) => {
