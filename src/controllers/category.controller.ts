@@ -1,6 +1,5 @@
 import { Context } from "hono";
 import { CategoryService } from "../services/category.service";
-import { toCategoryDto } from "../mappers/category.mapper";
 import type { CreateCategoryDto, UpdateCategoryDto } from "../dto/category.dto";
 
 export const createCategory = async (c: Context) => {
@@ -13,7 +12,7 @@ export const createCategory = async (c: Context) => {
   } catch (err: unknown) {
     return c.json(
       { error: err instanceof Error ? err.message : String(err) },
-      400,
+      400
     );
   }
 };
@@ -26,7 +25,7 @@ export const getCategories = async (c: Context) => {
   } catch (err: unknown) {
     return c.json(
       { error: err instanceof Error ? err.message : String(err) },
-      400,
+      400
     );
   }
 };
@@ -42,7 +41,7 @@ export const getCategoryById = async (c: Context) => {
   } catch (err: unknown) {
     return c.json(
       { error: err instanceof Error ? err.message : String(err) },
-      400,
+      400
     );
   }
 };
@@ -56,7 +55,7 @@ export const updateCategory = async (c: Context) => {
   } catch (err: unknown) {
     return c.json(
       { error: err instanceof Error ? err.message : String(err) },
-      400,
+      400
     );
   }
 };
@@ -69,7 +68,7 @@ export const deleteCategory = async (c: Context) => {
   } catch (err: unknown) {
     return c.json(
       { error: err instanceof Error ? err.message : String(err) },
-      400,
+      400
     );
   }
 };

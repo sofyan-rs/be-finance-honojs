@@ -1,6 +1,5 @@
 import { Context } from "hono";
 import { UserService } from "../services/user.service";
-import { HttpError } from "../errors/http-error";
 
 export const register = async (c: Context) => {
   try {

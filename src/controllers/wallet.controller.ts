@@ -1,6 +1,5 @@
 import { Context } from "hono";
 import { WalletService } from "../services/wallet.service";
-import { toWalletDto } from "../mappers/wallet.mapper";
 import type { CreateWalletDto, UpdateWalletDto } from "../dto/wallet.dto";
 
 export const createWallet = async (c: Context) => {
@@ -13,7 +12,7 @@ export const createWallet = async (c: Context) => {
   } catch (err: unknown) {
     return c.json(
       { error: err instanceof Error ? err.message : String(err) },
-      400,
+      400
     );
   }
 };
@@ -26,7 +25,7 @@ export const getWallets = async (c: Context) => {
   } catch (err: unknown) {
     return c.json(
       { error: err instanceof Error ? err.message : String(err) },
-      400,
+      400
     );
   }
 };
@@ -42,7 +41,7 @@ export const getWalletById = async (c: Context) => {
   } catch (err: unknown) {
     return c.json(
       { error: err instanceof Error ? err.message : String(err) },
-      400,
+      400
     );
   }
 };
@@ -56,7 +55,7 @@ export const updateWallet = async (c: Context) => {
   } catch (err: unknown) {
     return c.json(
       { error: err instanceof Error ? err.message : String(err) },
-      400,
+      400
     );
   }
 };
@@ -69,7 +68,7 @@ export const deleteWallet = async (c: Context) => {
   } catch (err: unknown) {
     return c.json(
       { error: err instanceof Error ? err.message : String(err) },
-      400,
+      400
     );
   }
 };

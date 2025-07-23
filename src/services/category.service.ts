@@ -1,9 +1,5 @@
 import { CategoryRepository } from "../repositories/category.repository";
-import type {
-  CreateCategoryDto,
-  UpdateCategoryDto,
-  CategoryDto,
-} from "../dto/category.dto";
+import type { CreateCategoryDto, UpdateCategoryDto } from "../dto/category.dto";
 import { toCategoryDto } from "../mappers/category.mapper";
 import { HttpError } from "../errors/http-error";
 
@@ -15,7 +11,7 @@ export class CategoryService {
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to create category",
-        500,
+        500
       );
     }
   }
@@ -27,7 +23,7 @@ export class CategoryService {
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to get category",
-        500,
+        500
       );
     }
   }
@@ -39,7 +35,7 @@ export class CategoryService {
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to update category",
-        500,
+        500
       );
     }
   }
@@ -50,7 +46,7 @@ export class CategoryService {
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to delete category",
-        500,
+        500
       );
     }
   }
@@ -62,7 +58,7 @@ export class CategoryService {
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to get categories",
-        500,
+        500
       );
     }
   }

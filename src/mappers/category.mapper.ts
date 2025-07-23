@@ -7,6 +7,7 @@ export function toCategoryDto(category: Category): CategoryDto {
     name: category.name,
     type: category.type,
     icon: category.icon,
+    color: category.color,
     userId: category.userId,
     createdAt: category.createdAt.toISOString(),
     modifiedAt: category.modifiedAt.toISOString(),

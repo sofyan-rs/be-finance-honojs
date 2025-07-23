@@ -1,9 +1,5 @@
 import { WalletRepository } from "../repositories/wallet.repository";
-import type {
-  CreateWalletDto,
-  UpdateWalletDto,
-  WalletDto,
-} from "../dto/wallet.dto";
+import type { CreateWalletDto, UpdateWalletDto } from "../dto/wallet.dto";
 import { toWalletDto } from "../mappers/wallet.mapper";
 import { HttpError } from "../errors/http-error";
 
@@ -15,7 +11,7 @@ export class WalletService {
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to create wallet",
-        500,
+        500
       );
     }
   }
@@ -27,7 +23,7 @@ export class WalletService {
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to get wallet",
-        500,
+        500
       );
     }
   }
@@ -39,7 +35,7 @@ export class WalletService {
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to update wallet",
-        500,
+        500
       );
     }
   }
@@ -50,7 +46,7 @@ export class WalletService {
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to delete wallet",
-        500,
+        500
       );
     }
   }
@@ -62,7 +58,7 @@ export class WalletService {
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to get wallets",
-        500,
+        500
       );
     }
   }

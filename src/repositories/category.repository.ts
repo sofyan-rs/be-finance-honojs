@@ -6,7 +6,8 @@ export const CategoryRepository = {
     name: string;
     type: TransactionType;
     icon: string;
-    userId: string;
+    color: string;
+    userId?: string;
   }) => {
     return await CategoryModel.create({ data });
   },
@@ -15,7 +16,12 @@ export const CategoryRepository = {
   },
   update: async (
     id: string,
-    data: { name: string; type: TransactionType; icon: string },
+    data: {
+      name?: string;
+      type?: TransactionType;
+      icon?: string;
+      color?: string;
+    }
   ) => {
     return await CategoryModel.update({ where: { id }, data });
   },
@@ -23,6 +29,9 @@ export const CategoryRepository = {
     return await CategoryModel.delete({ where: { id } });
   },
   findByUserId: async (userId: string) => {
-    return await CategoryModel.findMany({ where: { userId } });
+    return await CategoryModel.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+    });
   },
 };

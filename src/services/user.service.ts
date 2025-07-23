@@ -1,11 +1,7 @@
 import * as bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
 import { UserRepository } from "../repositories/user.repository";
-import type {
-  UserDto,
-  UpdateUserDto,
-  ChangePasswordDto,
-} from "../dto/user.dto";
+import type { UpdateUserDto, ChangePasswordDto } from "../dto/user.dto";
 import { toUserDto } from "../mappers/user.mapper";
 import { HttpError } from "../errors/http-error";
 import { UserSettingModel } from "../models/user.model";
@@ -52,10 +48,11 @@ export class UserService {
               name: cat.name,
               type: cat.type as TransactionType,
               icon: cat.icon,
+              color: cat.color,
               userId: user.id,
             },
-          }),
-        ),
+          })
+        )
       );
 
       const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
@@ -65,7 +62,7 @@ export class UserService {
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to register user",
-        500,
+        500
       );
     }
   }
@@ -85,7 +82,7 @@ export class UserService {
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to login",
-        500,
+        500
       );
     }
   }
@@ -99,7 +96,7 @@ export class UserService {
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to get user",
-        500,
+        500
       );
     }
   }
@@ -114,7 +111,7 @@ export class UserService {
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to update user",
-        500,
+        500
       );
     }
   }
@@ -134,7 +131,7 @@ export class UserService {
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to change password",
-        500,
+        500
       );
     }
   }
