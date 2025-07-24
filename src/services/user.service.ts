@@ -33,7 +33,7 @@ export class UserService {
       // Create one wallet for the new user
       await prisma.wallet.create({
         data: {
-          name: "My Wallet",
+          name: "Cash",
           userId: user.id,
         },
       });
@@ -124,8 +124,6 @@ export class UserService {
 
       const hashed = await bcrypt.hash(dto.newPassword, 10);
       await UserRepository.update(id, { password: hashed });
-
-      return { message: "Password updated successfully" };
     } catch (error: unknown) {
       throw new HttpError(
         error instanceof Error ? error.message : "Failed to change password",

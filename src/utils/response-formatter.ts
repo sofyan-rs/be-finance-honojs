@@ -3,12 +3,12 @@ export const successResponse = ({
   data,
 }: {
   message: string;
-  data: any;
+  data?: any;
 }) => {
   return {
     success: true,
     message,
-    data: data || null,
+    data,
   };
 };
 

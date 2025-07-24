@@ -76,7 +76,6 @@ export const deleteCategory = async (c: Context) => {
     return c.json(
       successResponse({
         message: "Category deleted successfully",
-        data: null,
       })
     );
   } catch (err: any) {

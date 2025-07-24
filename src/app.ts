@@ -7,6 +7,7 @@ import walletRoutes from "./routes/wallet.route";
 import transactionRoutes from "./routes/transaction.route";
 import settingRoutes from "./routes/setting.route";
 import { logger } from "./middlewares/logger";
+import { errorResponse } from "./utils/response-formatter";
 
 const app = new Hono();
 
@@ -19,7 +20,7 @@ app.use(
 );
 app.use("*", logger);
 app.onError((err, c) => {
-  return c.json({ error: err.message }, 500);
+  return c.json(errorResponse({ message: err.message }), 500);
 });
 app.get("/", (c) => {
   return c.text("Finance Tracker API!");
