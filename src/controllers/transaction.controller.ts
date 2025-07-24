@@ -1,6 +1,6 @@
 import { Context } from "hono";
 import { TransactionService } from "../services/transaction.service";
-import { HttpError } from "../errors/http-error";
+import { errorResponse, successResponse } from "../utils/response-formatter";
 
 export class TransactionController {
   static async create(c: Context) {
@@ -13,12 +13,14 @@ export class TransactionController {
         userId: user.id,
       });
 
-      return c.json({ success: true, data: transaction }, 201);
-    } catch (err: unknown) {
       return c.json(
-        { error: err instanceof Error ? err.message : String(err) },
-        400
+        successResponse({
+          message: "Transaction created successfully",
+          data: transaction,
+        })
       );
+    } catch (err: any) {
+      return c.json(errorResponse({ message: err.message }), err.status);
     }
   }
 
@@ -28,15 +30,20 @@ export class TransactionController {
       const transaction = await TransactionService.getById(parseInt(id));
 
       if (!transaction) {
-        return c.json({ error: "Transaction not found" }, 404);
+        return c.json(
+          { success: false, message: "Transaction not found" },
+          404
+        );
       }
 
-      return c.json({ success: true, data: transaction });
-    } catch (err: unknown) {
       return c.json(
-        { error: err instanceof Error ? err.message : String(err) },
-        400
+        successResponse({
+          message: "Transaction fetched successfully",
+          data: transaction,
+        })
       );
+    } catch (err: any) {
+      return c.json(errorResponse({ message: err.message }), err.status);
     }
   }
 
@@ -47,12 +54,14 @@ export class TransactionController {
 
       const transaction = await TransactionService.update(parseInt(id), body);
 
-      return c.json({ success: true, data: transaction });
-    } catch (err: unknown) {
       return c.json(
-        { error: err instanceof Error ? err.message : String(err) },
-        400
+        successResponse({
+          message: "Transaction updated successfully",
+          data: transaction,
+        })
       );
+    } catch (err: any) {
+      return c.json(errorResponse({ message: err.message }), err.status);
     }
   }
 
@@ -61,15 +70,14 @@ export class TransactionController {
       const { id } = c.req.param();
       await TransactionService.delete(parseInt(id));
 
-      return c.json({
-        success: true,
-        message: "Transaction deleted successfully",
-      });
-    } catch (err: unknown) {
       return c.json(
-        { error: err instanceof Error ? err.message : String(err) },
-        400
+        successResponse({
+          message: "Transaction deleted successfully",
+          data: null,
+        })
       );
+    } catch (err: any) {
+      return c.json(errorResponse({ message: err.message }), err.status);
     }
   }
 
@@ -78,12 +86,14 @@ export class TransactionController {
       const user = c.get("user");
       const transactions = await TransactionService.getAllByUserId(user.id);
 
-      return c.json({ success: true, data: transactions });
-    } catch (err: unknown) {
       return c.json(
-        { error: err instanceof Error ? err.message : String(err) },
-        400
+        successResponse({
+          message: "Transactions fetched successfully",
+          data: transactions,
+        })
       );
+    } catch (err: any) {
+      return c.json(errorResponse({ message: err.message }), err.status);
     }
   }
 
@@ -92,12 +102,14 @@ export class TransactionController {
       const { walletId } = c.req.param();
       const transactions = await TransactionService.getAllByWalletId(walletId);
 
-      return c.json({ success: true, data: transactions });
-    } catch (err: unknown) {
       return c.json(
-        { error: err instanceof Error ? err.message : String(err) },
-        400
+        successResponse({
+          message: "Transactions fetched successfully",
+          data: transactions,
+        })
       );
+    } catch (err: any) {
+      return c.json(errorResponse({ message: err.message }), err.status);
     }
   }
 
@@ -108,12 +120,14 @@ export class TransactionController {
         categoryId
       );
 
-      return c.json({ success: true, data: transactions });
-    } catch (err: unknown) {
       return c.json(
-        { error: err instanceof Error ? err.message : String(err) },
-        400
+        successResponse({
+          message: "Transactions fetched successfully",
+          data: transactions,
+        })
       );
+    } catch (err: any) {
+      return c.json(errorResponse({ message: err.message }), err.status);
     }
   }
 }

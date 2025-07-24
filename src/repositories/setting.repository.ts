@@ -1,14 +1,14 @@
-import { UserSettingModel } from "../models/setting.model";
+import { prisma } from "../config/db";
 
 export const UserSettingRepository = {
   create: async (data: { userId: string; currency?: string }) => {
-    return await UserSettingModel.create({ data });
+    return await prisma.userSetting.create({ data });
   },
   findById: async (id: string) => {
-    return await UserSettingModel.findUnique({ where: { id } });
+    return await prisma.userSetting.findUnique({ where: { id } });
   },
   findByUserId: async (userId: string) => {
-    return await UserSettingModel.findUnique({ where: { userId } });
+    return await prisma.userSetting.findUnique({ where: { userId } });
   },
   update: async (
     id: string,
@@ -16,7 +16,7 @@ export const UserSettingRepository = {
       currency?: string;
     }
   ) => {
-    return await UserSettingModel.update({ where: { id }, data });
+    return await prisma.userSetting.update({ where: { id }, data });
   },
   updateByUserId: async (
     userId: string,
@@ -24,9 +24,9 @@ export const UserSettingRepository = {
       currency?: string;
     }
   ) => {
-    return await UserSettingModel.update({ where: { userId }, data });
+    return await prisma.userSetting.update({ where: { userId }, data });
   },
   delete: async (id: string) => {
-    return await UserSettingModel.delete({ where: { id } });
+    return await prisma.userSetting.delete({ where: { id } });
   },
 };

@@ -1,14 +1,14 @@
-import { UserModel } from "../models/user.model";
+import { prisma } from "../config/db";
 
 export const UserRepository = {
   create: (data: { name: string; email: string; password: string }) =>
-    UserModel.create({ data }),
-  findByEmail: (email: string) => UserModel.findUnique({ where: { email } }),
-  findById: (id: string) => UserModel.findUnique({ where: { id } }),
+    prisma.user.create({ data }),
+  findByEmail: (email: string) => prisma.user.findUnique({ where: { email } }),
+  findById: (id: string) => prisma.user.findUnique({ where: { id } }),
   update: (
     id: string,
-    data: { name?: string; email?: string; password?: string },
+    data: { name?: string; email?: string; password?: string }
   ) => {
-    return UserModel.update({ where: { id }, data });
+    return prisma.user.update({ where: { id }, data });
   },
 };

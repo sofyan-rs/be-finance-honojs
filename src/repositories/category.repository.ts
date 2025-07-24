@@ -1,5 +1,5 @@
 import { TransactionType } from "@prisma/client";
-import { CategoryModel } from "../models/category.model";
+import { prisma } from "../config/db";
 
 export const CategoryRepository = {
   create: async (data: {
@@ -9,10 +9,10 @@ export const CategoryRepository = {
     color: string;
     userId?: string;
   }) => {
-    return await CategoryModel.create({ data });
+    return await prisma.category.create({ data });
   },
   findById: async (id: string) => {
-    return await CategoryModel.findUnique({ where: { id } });
+    return await prisma.category.findUnique({ where: { id } });
   },
   update: async (
     id: string,
@@ -23,13 +23,13 @@ export const CategoryRepository = {
       color?: string;
     }
   ) => {
-    return await CategoryModel.update({ where: { id }, data });
+    return await prisma.category.update({ where: { id }, data });
   },
   delete: async (id: string) => {
-    return await CategoryModel.delete({ where: { id } });
+    return await prisma.category.delete({ where: { id } });
   },
   findByUserId: async (userId: string) => {
-    return await CategoryModel.findMany({
+    return await prisma.category.findMany({
       where: { userId },
       orderBy: { createdAt: "desc" },
     });

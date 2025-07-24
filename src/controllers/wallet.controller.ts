@@ -1,6 +1,7 @@
 import { Context } from "hono";
 import { WalletService } from "../services/wallet.service";
 import type { CreateWalletDto, UpdateWalletDto } from "../dto/wallet.dto";
+import { errorResponse, successResponse } from "../utils/response-formatter";
 
 export const createWallet = async (c: Context) => {
   try {
@@ -8,12 +9,14 @@ export const createWallet = async (c: Context) => {
     const body: CreateWalletDto = await c.req.json();
     const payload: CreateWalletDto = { ...body, userId: user.id };
     const wallet = await WalletService.create(payload);
-    return c.json(wallet);
-  } catch (err: unknown) {
     return c.json(
-      { error: err instanceof Error ? err.message : String(err) },
-      400
+      successResponse({
+        message: "Wallet created successfully",
+        data: wallet,
+      })
     );
+  } catch (err: any) {
+    return c.json(errorResponse({ message: err.message }), err.status);
   }
 };
 
@@ -21,12 +24,14 @@ export const getWallets = async (c: Context) => {
   try {
     const user = c.get("user");
     const wallets = await WalletService.getAllByUserId(user.id);
-    return c.json(wallets);
-  } catch (err: unknown) {
     return c.json(
-      { error: err instanceof Error ? err.message : String(err) },
-      400
+      successResponse({
+        message: "Wallets fetched successfully",
+        data: wallets,
+      })
     );
+  } catch (err: any) {
+    return c.json(errorResponse({ message: err.message }), err.status);
   }
 };
 
@@ -35,14 +40,16 @@ export const getWalletById = async (c: Context) => {
     const id = c.req.param("id");
     const wallet = await WalletService.getById(id);
     if (!wallet) {
-      return c.json({ error: "Wallet not found" }, 404);
+      return c.json({ success: false, message: "Wallet not found" }, 404);
     }
-    return c.json(wallet);
-  } catch (err: unknown) {
     return c.json(
-      { error: err instanceof Error ? err.message : String(err) },
-      400
+      successResponse({
+        message: "Wallet fetched successfully",
+        data: wallet,
+      })
     );
+  } catch (err: any) {
+    return c.json(errorResponse({ message: err.message }), err.status);
   }
 };
 
@@ -51,12 +58,14 @@ export const updateWallet = async (c: Context) => {
     const id = c.req.param("id");
     const body: UpdateWalletDto = await c.req.json();
     const wallet = await WalletService.update(id, body);
-    return c.json(wallet);
-  } catch (err: unknown) {
     return c.json(
-      { error: err instanceof Error ? err.message : String(err) },
-      400
+      successResponse({
+        message: "Wallet updated successfully",
+        data: wallet,
+      })
     );
+  } catch (err: any) {
+    return c.json(errorResponse({ message: err.message }), err.status);
   }
 };
 
@@ -64,11 +73,13 @@ export const deleteWallet = async (c: Context) => {
   try {
     const id = c.req.param("id");
     await WalletService.delete(id);
-    return c.json({ message: "Wallet deleted successfully" });
-  } catch (err: unknown) {
     return c.json(
-      { error: err instanceof Error ? err.message : String(err) },
-      400
+      successResponse({
+        message: "Wallet deleted successfully",
+        data: null,
+      })
     );
+  } catch (err: any) {
+    return c.json(errorResponse({ message: err.message }), err.status);
   }
 };

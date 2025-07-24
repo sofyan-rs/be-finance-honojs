@@ -1,6 +1,6 @@
 import { Context } from "hono";
 import { UserSettingService } from "../services/setting.service";
-import { HttpError } from "../errors/http-error";
+import { errorResponse, successResponse } from "../utils/response-formatter";
 
 export class UserSettingController {
   static async create(c: Context) {
@@ -13,12 +13,14 @@ export class UserSettingController {
         userId: user.id,
       });
 
-      return c.json({ success: true, data: userSetting }, 201);
-    } catch (err: unknown) {
       return c.json(
-        { error: err instanceof Error ? err.message : String(err) },
-        400
+        successResponse({
+          message: "User setting created successfully",
+          data: userSetting,
+        })
       );
+    } catch (err: any) {
+      return c.json(errorResponse({ message: err.message }), err.status);
     }
   }
 
@@ -28,15 +30,17 @@ export class UserSettingController {
       const userSetting = await UserSettingService.getById(id);
 
       if (!userSetting) {
-        return c.json({ error: "User setting not found" }, 404);
+        return c.json({ message: "User setting not found" }, 404);
       }
 
-      return c.json({ success: true, data: userSetting });
-    } catch (err: unknown) {
       return c.json(
-        { error: err instanceof Error ? err.message : String(err) },
-        400
+        successResponse({
+          message: "User setting fetched successfully",
+          data: userSetting,
+        })
       );
+    } catch (err: any) {
+      return c.json(errorResponse({ message: err.message }), err.status);
     }
   }
 
@@ -46,15 +50,20 @@ export class UserSettingController {
       const userSetting = await UserSettingService.getByUserId(user.id);
 
       if (!userSetting) {
-        return c.json({ error: "User setting not found" }, 404);
+        return c.json(
+          errorResponse({ message: "User setting not found" }),
+          404
+        );
       }
 
-      return c.json({ success: true, data: userSetting });
-    } catch (err: unknown) {
       return c.json(
-        { error: err instanceof Error ? err.message : String(err) },
-        400
+        successResponse({
+          message: "User setting fetched successfully",
+          data: userSetting,
+        })
       );
+    } catch (err: any) {
+      return c.json(errorResponse({ message: err.message }), err.status);
     }
   }
 
@@ -65,12 +74,14 @@ export class UserSettingController {
 
       const userSetting = await UserSettingService.update(id, body);
 
-      return c.json({ success: true, data: userSetting });
-    } catch (err: unknown) {
       return c.json(
-        { error: err instanceof Error ? err.message : String(err) },
-        400
+        successResponse({
+          message: "User setting updated successfully",
+          data: userSetting,
+        })
       );
+    } catch (err: any) {
+      return c.json(errorResponse({ message: err.message }), err.status);
     }
   }
 
@@ -84,12 +95,14 @@ export class UserSettingController {
         body
       );
 
-      return c.json({ success: true, data: userSetting });
-    } catch (err: unknown) {
       return c.json(
-        { error: err instanceof Error ? err.message : String(err) },
-        400
+        successResponse({
+          message: "User setting updated successfully",
+          data: userSetting,
+        })
       );
+    } catch (err: any) {
+      return c.json(errorResponse({ message: err.message }), err.status);
     }
   }
 
@@ -98,15 +111,14 @@ export class UserSettingController {
       const { id } = c.req.param();
       await UserSettingService.delete(id);
 
-      return c.json({
-        success: true,
-        message: "User setting deleted successfully",
-      });
-    } catch (err: unknown) {
       return c.json(
-        { error: err instanceof Error ? err.message : String(err) },
-        400
+        successResponse({
+          message: "User setting deleted successfully",
+          data: null,
+        })
       );
+    } catch (err: any) {
+      return c.json(errorResponse({ message: err.message }), err.status);
     }
   }
 }

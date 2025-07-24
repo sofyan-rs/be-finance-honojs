@@ -1,5 +1,5 @@
 import { TransactionType } from "@prisma/client";
-import { TransactionModel } from "../models/transaction.model";
+import { prisma } from "../config/db";
 
 export const TransactionRepository = {
   create: async (data: {
@@ -11,10 +11,10 @@ export const TransactionRepository = {
     categoryId: string;
     walletId: string;
   }) => {
-    return await TransactionModel.create({ data });
+    return await prisma.transaction.create({ data });
   },
   findById: async (id: number) => {
-    return await TransactionModel.findUnique({
+    return await prisma.transaction.findUnique({
       where: { id },
       include: {
         category: true,
@@ -34,13 +34,13 @@ export const TransactionRepository = {
       walletId?: string;
     }
   ) => {
-    return await TransactionModel.update({ where: { id }, data });
+    return await prisma.transaction.update({ where: { id }, data });
   },
   delete: async (id: number) => {
-    return await TransactionModel.delete({ where: { id } });
+    return await prisma.transaction.delete({ where: { id } });
   },
   findByUserId: async (userId: string) => {
-    return await TransactionModel.findMany({
+    return await prisma.transaction.findMany({
       where: { userId },
       include: {
         category: true,
@@ -52,7 +52,7 @@ export const TransactionRepository = {
     });
   },
   findByWalletId: async (walletId: string) => {
-    return await TransactionModel.findMany({
+    return await prisma.transaction.findMany({
       where: { walletId },
       include: {
         category: true,
@@ -64,7 +64,7 @@ export const TransactionRepository = {
     });
   },
   findByCategoryId: async (categoryId: string) => {
-    return await TransactionModel.findMany({
+    return await prisma.transaction.findMany({
       where: { categoryId },
       include: {
         category: true,

@@ -1,5 +1,5 @@
 import { WalletType } from "@prisma/client";
-import { WalletModel } from "../models/wallet.model";
+import { prisma } from "../config/db";
 
 export const WalletRepository = {
   create: async (data: {
@@ -11,10 +11,10 @@ export const WalletRepository = {
     type: WalletType;
     color: string;
   }) => {
-    return await WalletModel.create({ data });
+    return await prisma.wallet.create({ data });
   },
   findById: async (id: string) => {
-    return await WalletModel.findUnique({ where: { id } });
+    return await prisma.wallet.findUnique({ where: { id } });
   },
   update: async (
     id: string,
@@ -27,13 +27,13 @@ export const WalletRepository = {
       color?: string;
     }
   ) => {
-    return await WalletModel.update({ where: { id }, data });
+    return await prisma.wallet.update({ where: { id }, data });
   },
   delete: async (id: string) => {
-    return await WalletModel.delete({ where: { id } });
+    return await prisma.wallet.delete({ where: { id } });
   },
   findByUserId: async (userId: string) => {
-    return await WalletModel.findMany({
+    return await prisma.wallet.findMany({
       where: { userId },
       orderBy: { createdAt: "desc" },
     });
