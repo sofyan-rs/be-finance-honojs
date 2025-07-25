@@ -1,7 +1,9 @@
 import { TransactionType } from "@prisma/client";
+import type { CategoryDto } from "./category.dto";
+import type { WalletDto } from "./wallet.dto";
 
 export interface TransactionDto {
-  id: number;
+  id: string;
   title: string;
   amount: number;
   type: TransactionType;
@@ -9,6 +11,8 @@ export interface TransactionDto {
   userId: string;
   categoryId: string;
   walletId: string;
+  category: CategoryDto;
+  wallet: Omit<WalletDto, "income" | "expense">; // Simplified wallet without calculated fields
   createdAt: string;
   modifiedAt: string;
 }

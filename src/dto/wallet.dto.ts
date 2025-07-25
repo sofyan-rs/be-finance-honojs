@@ -15,9 +15,6 @@ export interface WalletDto {
 
 export interface CreateWalletDto {
   name: string;
-  balance?: number;
-  income?: number;
-  expense?: number;
   type: WalletType;
   color: string;
   userId: string;
@@ -25,9 +22,27 @@ export interface CreateWalletDto {
 
 export interface UpdateWalletDto {
   name?: string;
-  balance?: number;
-  income?: number;
-  expense?: number;
   type?: WalletType;
   color?: string;
+}
+
+export interface WalletSummaryDto {
+  totalBalance: number;
+  totalIncome: number;
+  totalExpense: number;
+}
+
+export interface IndividualWalletSummaryDto {
+  id: string;
+  name: string;
+  balance: number;
+  income: number;
+  expense: number;
+  type: WalletType;
+  color: string;
+}
+
+export interface AllWalletsSummaryDto {
+  overall: WalletSummaryDto;
+  wallets: IndividualWalletSummaryDto[];
 }

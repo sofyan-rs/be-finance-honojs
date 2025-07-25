@@ -13,7 +13,7 @@ export const TransactionRepository = {
   }) => {
     return await prisma.transaction.create({ data });
   },
-  findById: async (id: number) => {
+  findById: async (id: string) => {
     return await prisma.transaction.findUnique({
       where: { id },
       include: {
@@ -24,7 +24,7 @@ export const TransactionRepository = {
     });
   },
   update: async (
-    id: number,
+    id: string,
     data: {
       title?: string;
       amount?: number;
@@ -36,43 +36,25 @@ export const TransactionRepository = {
   ) => {
     return await prisma.transaction.update({ where: { id }, data });
   },
-  delete: async (id: number) => {
+  delete: async (id: string) => {
     return await prisma.transaction.delete({ where: { id } });
   },
-  findByUserId: async (userId: string) => {
+  findByUserId: async ({
+    userId,
+    startDate,
+    endDate,
+  }: {
+    userId: string;
+    startDate?: Date;
+    endDate?: Date;
+  }) => {
     return await prisma.transaction.findMany({
-      where: { userId },
-      include: {
-        category: true,
-        wallet: true,
+      where: {
+        userId,
+        date: { gte: startDate, lte: endDate },
       },
-      orderBy: {
-        date: "desc",
-      },
-    });
-  },
-  findByWalletId: async (walletId: string) => {
-    return await prisma.transaction.findMany({
-      where: { walletId },
-      include: {
-        category: true,
-        wallet: true,
-      },
-      orderBy: {
-        date: "desc",
-      },
-    });
-  },
-  findByCategoryId: async (categoryId: string) => {
-    return await prisma.transaction.findMany({
-      where: { categoryId },
-      include: {
-        category: true,
-        wallet: true,
-      },
-      orderBy: {
-        date: "desc",
-      },
+      include: { category: true, wallet: true },
+      orderBy: { date: "desc" },
     });
   },
 };

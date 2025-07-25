@@ -5,8 +5,11 @@ import type { UpdateUserDto, ChangePasswordDto } from "../dto/user.dto";
 import { toUserDto } from "../mappers/user.mapper";
 import { HttpError } from "../errors/http-error";
 import { DEFAULT_CATEGORIES } from "../constants/default-category";
-import { TransactionType } from "@prisma/client";
+import { TransactionType, WalletType } from "@prisma/client";
 import { prisma } from "../config/db";
+import { UserSettingRepository } from "../repositories/setting.repository";
+import { WalletRepository } from "../repositories/wallet.repository";
+import { CategoryRepository } from "../repositories/category.repository";
 
 const JWT_SECRET = process.env.JWT_SECRET || "default";
 
@@ -24,31 +27,27 @@ export class UserService {
       });
 
       // Create user settings
-      await prisma.userSetting.create({
-        data: {
-          userId: user.id,
-        },
+      await UserSettingRepository.create({
+        userId: user.id,
       });
 
       // Create one wallet for the new user
-      await prisma.wallet.create({
-        data: {
-          name: "Cash",
-          userId: user.id,
-        },
+      await WalletRepository.create({
+        name: "Cash",
+        userId: user.id,
+        type: WalletType.cash,
+        color: "#EF4444",
       });
 
       // Create default categories for the new user
       await Promise.all(
         DEFAULT_CATEGORIES.map((cat) =>
-          prisma.category.create({
-            data: {
-              name: cat.name,
-              type: cat.type as TransactionType,
-              icon: cat.icon,
-              color: cat.color,
-              userId: user.id,
-            },
+          CategoryRepository.create({
+            name: cat.name,
+            type: cat.type as TransactionType,
+            icon: cat.icon,
+            color: cat.color,
+            userId: user.id,
           })
         )
       );

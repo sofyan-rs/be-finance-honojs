@@ -26,7 +26,15 @@ export const CategoryRepository = {
     return await prisma.category.update({ where: { id }, data });
   },
   delete: async (id: string) => {
-    return await prisma.category.delete({ where: { id } });
+    return await prisma.$transaction(async (tx) => {
+      // First delete all transactions associated with this category
+      await tx.transaction.deleteMany({
+        where: { categoryId: id },
+      });
+
+      // Then delete the category
+      return await tx.category.delete({ where: { id } });
+    });
   },
   findByUserId: async (userId: string) => {
     return await prisma.category.findMany({

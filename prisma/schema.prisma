@@ -24,8 +24,6 @@ model Wallet {
   id           String        @id @default(uuid())
   name         String
   balance      Float         @default(0)
-  income       Float         @default(0)
-  expense      Float         @default(0)
   userId       String
   type         WalletType    @default(cash)
   color        String        @default("#EF4444")
@@ -49,7 +47,7 @@ model Category {
 }
 
 model Transaction {
-  id         Int             @id @default(autoincrement())
+  id         String          @id @default(uuid())
   title      String
   amount     Float
   type       TransactionType

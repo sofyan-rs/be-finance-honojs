@@ -4,10 +4,12 @@ import * as category from "../controllers/category.controller";
 
 const route = new Hono();
 
-route.get("/", jwtAuth, category.getCategories);
-route.get("/:id", jwtAuth, category.getCategoryById);
-route.post("/", jwtAuth, category.createCategory);
-route.put("/:id", jwtAuth, category.updateCategory);
-route.delete("/:id", jwtAuth, category.deleteCategory);
+route.use("*", jwtAuth);
+
+route.get("/", category.getCategories);
+route.post("/", category.createCategory);
+route.get("/:id", category.getCategoryById);
+route.put("/:id", category.updateCategory);
+route.delete("/:id", category.deleteCategory);
 
 export default route;

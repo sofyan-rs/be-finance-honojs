@@ -83,3 +83,33 @@ export const deleteWallet = async (c: Context) => {
     return c.json(errorResponse({ message: err.message }), err.status);
   }
 };
+
+export const getWalletsSummary = async (c: Context) => {
+  try {
+    const user = c.get("user");
+    const summary = await WalletService.getSummaryByUserId(user.id);
+    return c.json(
+      successResponse({
+        message: "Wallet summary fetched successfully",
+        data: summary,
+      })
+    );
+  } catch (err: any) {
+    return c.json(errorResponse({ message: err.message }), err.status);
+  }
+};
+
+export const getDetailedWalletsSummary = async (c: Context) => {
+  try {
+    const user = c.get("user");
+    const summary = await WalletService.getDetailedSummaryByUserId(user.id);
+    return c.json(
+      successResponse({
+        message: "Detailed wallet summary fetched successfully",
+        data: summary,
+      })
+    );
+  } catch (err: any) {
+    return c.json(errorResponse({ message: err.message }), err.status);
+  }
+};

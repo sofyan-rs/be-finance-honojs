@@ -27,7 +27,7 @@ export class TransactionController {
   static async getById(c: Context) {
     try {
       const { id } = c.req.param();
-      const transaction = await TransactionService.getById(parseInt(id));
+      const transaction = await TransactionService.getById(id);
 
       if (!transaction) {
         return c.json(
@@ -52,7 +52,7 @@ export class TransactionController {
       const { id } = c.req.param();
       const body = await c.req.json();
 
-      const transaction = await TransactionService.update(parseInt(id), body);
+      const transaction = await TransactionService.update(id, body);
 
       return c.json(
         successResponse({
@@ -68,12 +68,11 @@ export class TransactionController {
   static async delete(c: Context) {
     try {
       const { id } = c.req.param();
-      await TransactionService.delete(parseInt(id));
+      await TransactionService.delete(id);
 
       return c.json(
         successResponse({
           message: "Transaction deleted successfully",
-          data: null,
         })
       );
     } catch (err: any) {
@@ -84,41 +83,13 @@ export class TransactionController {
   static async getAllByUser(c: Context) {
     try {
       const user = c.get("user");
-      const transactions = await TransactionService.getAllByUserId(user.id);
+      const { startDate, endDate } = c.req.query();
 
-      return c.json(
-        successResponse({
-          message: "Transactions fetched successfully",
-          data: transactions,
-        })
-      );
-    } catch (err: any) {
-      return c.json(errorResponse({ message: err.message }), err.status);
-    }
-  }
-
-  static async getAllByWallet(c: Context) {
-    try {
-      const { walletId } = c.req.param();
-      const transactions = await TransactionService.getAllByWalletId(walletId);
-
-      return c.json(
-        successResponse({
-          message: "Transactions fetched successfully",
-          data: transactions,
-        })
-      );
-    } catch (err: any) {
-      return c.json(errorResponse({ message: err.message }), err.status);
-    }
-  }
-
-  static async getAllByCategory(c: Context) {
-    try {
-      const { categoryId } = c.req.param();
-      const transactions = await TransactionService.getAllByCategoryId(
-        categoryId
-      );
+      const transactions = await TransactionService.getAllByUserId({
+        userId: user.id,
+        startDate: startDate ? new Date(startDate) : undefined,
+        endDate: endDate ? new Date(endDate) : undefined,
+      });
 
       return c.json(
         successResponse({
