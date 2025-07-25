@@ -5,6 +5,8 @@ import type {
 } from "../dto/transaction.dto";
 import { toTransactionDto } from "../mappers/transaction.mapper";
 import { HttpError } from "../errors/http-error";
+import { WalletRepository } from "../repositories/wallet.repository";
+import { TransactionType } from "@prisma/client";
 
 export class TransactionService {
   static async create(data: CreateTransactionDto) {
@@ -16,6 +18,22 @@ export class TransactionService {
       if (!transactionWithIncludes) {
         throw new Error("Failed to fetch created transaction");
       }
+      // Get previous balance
+      const previousBalance = await WalletRepository.findById(
+        transactionWithIncludes.walletId
+      );
+      if (!previousBalance) {
+        throw new Error("Failed to fetch previous balance");
+      }
+
+      // Update balance
+      await WalletRepository.update(transactionWithIncludes.walletId, {
+        balance:
+          transactionWithIncludes.type === TransactionType.income
+            ? previousBalance.balance + transactionWithIncludes.amount
+            : previousBalance.balance - transactionWithIncludes.amount,
+      });
+
       return toTransactionDto(transactionWithIncludes);
     } catch (error: unknown) {
       throw new HttpError(
